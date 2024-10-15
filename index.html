@@ -53,6 +53,10 @@
             color: #188223;
         }
 
+        /* #chat-box .user-message {
+            background-color: #cfffd2;
+            text-align: left;
+        } */
 
         .chat-input-container {
             display: flex;
@@ -101,35 +105,37 @@
     </div>
 
     <script>
+        // Add event listener for Enter key
         document.getElementById('message-input').addEventListener('keydown', function (event) {
-        if (event.key === 'Enter') {
-            sendMessage();  // Call sendMessage function on Enter key press
-            event.preventDefault();  // Prevent the default form submission behavior
-        }
+            if (event.key === 'Enter') {
+                sendMessage();  // Call sendMessage function on Enter key press
+                event.preventDefault();  // Prevent the default form submission behavior
+            }
         });
 
         function sendMessage() {
             const userInput = document.getElementById('message-input').value;
             const chatBox = document.getElementById('chat-box');
 
-            // Display the user's message in the chat box
-            chatBox.innerHTML += `<div><strong></strong> ${userInput}</div>`;
+            if (!userInput.trim()) {
+                return; // Do nothing if the input is empty or just whitespace
+            }
 
-            // new varible to append user input to the chat box
-            var user_input = chatBox.innerHTML + "---" + userInput
+            // Display the user's message in the chat box immediately
+            chatBox.innerHTML += `<div class="user-message"><strong>You:</strong> ${userInput}</div>`;
 
             // Send the message to the Flask backend
-            fetch('https://ai-assistant-backend-python.onrender.com/chat', {
+            fetch('http://172.20.10.3:10000/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ message: user_input })
+                body: JSON.stringify({ message: userInput })
             })
             .then(response => response.json())
             .then(data => {
-                // Display the server's response in the chat box
-                chatBox.innerHTML += `<div><strong>Soheils assistant:</strong> ${data.response}</div>`;
+                // Call the function to display the server's response with a typing effect
+                displayTypingEffect(chatBox, data.response, 'Soheil\'s assistant');
                 // Scroll the chat box to the bottom
                 chatBox.scrollTop = chatBox.scrollHeight;
             })
@@ -140,6 +146,26 @@
 
             // Clear the input box
             document.getElementById('message-input').value = '';
+        }
+
+        // Function to display text character by character (typing effect)
+        function displayTypingEffect(chatBox, text, sender) {
+            const messageElement = document.createElement('div');
+            messageElement.innerHTML = `<strong>${sender}:</strong> <span id="typing"></span>`;
+            chatBox.appendChild(messageElement);
+
+            let i = 0;
+            const typingSpan = messageElement.querySelector('#typing');
+
+            function typeCharacter() {
+                if (i < text.length) {
+                    typingSpan.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typeCharacter, 5); // Adjust the delay for typing speed (50ms in this case)
+                }
+            }
+
+            typeCharacter();
         }
     </script>
 </body>
