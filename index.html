@@ -125,7 +125,7 @@
             chatBox.innerHTML += `<div class="user-message"><strong>You:</strong> ${userInput}</div>`;
 
             // Send the message to the Flask backend
-            fetch('http://172.20.10.3:10000/chat', {
+            fetch('https://ai-assistant-backend-python.onrender.com/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
