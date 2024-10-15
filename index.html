@@ -125,7 +125,7 @@
             chatBox.innerHTML += `<div class="user-message"><strong>You:</strong> ${userInput}</div>`;
 
             // append the chat box with the user's message
-            message_to_send = 'chat contxt is ' + chatBox.innerText + '. \n' + 'instruction is ' + userInput;
+            message_to_send = 'chat contxt is as follows \n ' + chatBox.innerText + '. \n' + 'new instruction is ' + userInput;
 
             // Send the message to the Flask backend
             fetch('https://ai-assistant-backend-python.onrender.com/chat', {
