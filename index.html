@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soheil's LLM Assistant</title>
+    <title>Eden's LLM Assistant</title>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -99,7 +99,7 @@
     <div class="chat-container">
         <div id="chat-box"></div>
         <div class="chat-input-container">
-            <input type="text" id="message-input" class="user-input" placeholder="Ask about Soheil ..." />
+            <input type="text" id="message-input" class="user-input" placeholder="Ask about Eden ..." />
             <button class="send-btn" onclick="sendMessage()">Send</button>
         </div>
     </div>
@@ -138,7 +138,7 @@
             .then(response => response.json())
             .then(data => {
                 // Call the function to display the server's response with a typing effect
-                displayTypingEffect(chatBox, data.response, 'Soheil\'s assistant');
+                displayTypingEffect(chatBox, data.response, 'Eden\'s assistant');
                 // Scroll the chat box to the bottom
                 chatBox.scrollTop = chatBox.scrollHeight;
             })
